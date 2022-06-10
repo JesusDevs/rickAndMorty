@@ -1,0 +1,14 @@
+package com.rickandmorty.remote
+
+import com.rickandmorty.model.pojo.CharacterResponse
+import retrofit2.Response
+import retrofit2.http.GET
+import retrofit2.http.Query
+
+interface ICharacterService {
+
+    @GET("character")
+    suspend fun getAllCharacter(@Query("page") page: Int) : Response<List<CharacterResponse>>
+
+
+}
