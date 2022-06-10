@@ -36,13 +36,14 @@ class CharacterHomeFragment : Fragment() {
         binding.rvCharacter.layoutManager = LinearLayoutManager(context)
 
 
-        //get desde DB roomh
+        //getall desde DB room y observando con livedata
         mViewModelCharacter.characterLiveDataFromDataBase.observe(viewLifecycleOwner){
             it?.let {
                 Log.d("LISTADO", "$it")
                 adapter.update(it)
             }
         }
+
 
 
        //buscador por nombre asociar adapter

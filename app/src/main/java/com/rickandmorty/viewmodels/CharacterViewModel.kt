@@ -22,18 +22,19 @@ class CharacterViewModel (application: Application): AndroidViewModel(applicatio
 
             val dao = CharacterListRoom.getDataBase(application).getCharacterDao()
             repository= CharacterRepository(dao)
-
-            viewModelScope.launch {
-                repository.getCharactersWithCoroutines(page = 1)
-            }
-
             allCharacterDatafromNet=repository.liveDataCharResponse
             characterLiveDataFromDataBase = repository.liveDataCharactersDB
         }
+
          //corutina para buscar personajes por nombre
         fun searchDataByName(name :String ) = viewModelScope.launch {
         repository.searchCharactersWithCoroutines(name)
         }
+         fun DataNextPage(page :Int ) = viewModelScope.launch {
+        repository.getCharactersWithCoroutines(page)
+         }
+
+
         fun getCharByID(id:String) : LiveData<Result> {
             return repository.getCharacterByID(id)
         }
