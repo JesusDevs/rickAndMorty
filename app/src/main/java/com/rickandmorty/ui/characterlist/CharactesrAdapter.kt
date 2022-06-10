@@ -11,13 +11,13 @@ import com.rickandmorty.utils.loadSvg
 
 class CharactesrAdapter :RecyclerView.Adapter<CharactesrAdapter.CharactersVH>(){
 
-    private var listCharacterItem = listOf<Result>()
+    private var listCharacterItem = mutableListOf<Result>()
     private var selectedItem = MutableLiveData<Result>()
     fun selectedItem()=selectedItem
 
-    fun update(list: List<Result>){
-
-       listCharacterItem=list
+    fun update(list: MutableList<Result>){
+        list.addAll(listCharacterItem)
+        listCharacterItem=list
         notifyDataSetChanged()
 
     }

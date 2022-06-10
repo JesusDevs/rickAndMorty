@@ -12,6 +12,7 @@ class CharacterRepository(private val dao: CharacterDao) {
     //private val services = RetrofitGames.getRetrofitInstance()
     val liveDataCharactersDB : LiveData<List<Result>> = dao.getAllCharactersDataBase()
     val liveDataCharResponse = MutableLiveData<List<Result>>()
+    val liveDataCharPage = MutableLiveData<List<Result>>()
 
     suspend fun getCharactersWithCoroutines( page :Int)  {
         try {
@@ -20,6 +21,8 @@ class CharacterRepository(private val dao: CharacterDao) {
             when(response.isSuccessful) {
 
                 true -> response.body()?.let {
+
+                    liveDataCharPage.value=it.results
                     //inserto los personajes en la base de datos
                     dao.insertAllCharacter(it.results)
                     Log.d("repoCharacter", "${it.results}")

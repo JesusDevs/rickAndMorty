@@ -2,21 +2,23 @@ package com.rickandmorty.ui.characterlist
 
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.widget.NestedScrollView
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.rickandmorty.databinding.FragmentFirstBinding
 import com.rickandmorty.viewmodels.CharacterViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.runBlocking
 
 class CharacterHomeFragment : Fragment() {
 
     private var _binding: FragmentFirstBinding? = null
     private val mViewModelCharacter: CharacterViewModel by activityViewModels()
-
+    private var page: Int = 1
     private val binding get() = _binding!!
 
     override fun onCreateView(
@@ -35,18 +37,27 @@ class CharacterHomeFragment : Fragment() {
         binding.rvCharacter.adapter = adapter
         binding.rvCharacter.layoutManager = LinearLayoutManager(context)
 
+        // observando con livedata
 
-        //getall desde DB room y observando con livedata
-        mViewModelCharacter.characterLiveDataFromDataBase.observe(viewLifecycleOwner){
+        mViewModelCharacter.dataNextPage(page)
+        runBlocking{
+            mViewModelCharacter.allCharacterDataPage.observe(viewLifecycleOwner){
             it?.let {
                 Log.d("LISTADO", "$it")
-                adapter.update(it)
+                adapter.update(it.toMutableList())
+                binding.nestedScroll.setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener { v, scrollX, scrollY, oldScrollX, oldScrollY ->
+                    if ( scrollY > 300) {
+                        page++
+                    }
+                })
             }
         }
 
 
+        }
 
-       //buscador por nombre asociar adapter
+
+     /*  //buscador por nombre asociar adapter
         mViewModelCharacter.searchDataByName("Doofus")
 
          mViewModelCharacter.allCharacterDatafromNet.observe(viewLifecycleOwner) {
@@ -54,7 +65,7 @@ class CharacterHomeFragment : Fragment() {
     Log.d("DATOSFirstBuscador", "$it")
 }
 
-       /* binding.buttonFirst.setOnClickListener {
+       *//* binding.buttonFirst.setOnClickListener {
             findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment)
         }*/
     }
