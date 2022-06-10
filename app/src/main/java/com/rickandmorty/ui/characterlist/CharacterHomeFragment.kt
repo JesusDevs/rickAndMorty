@@ -1,4 +1,4 @@
-package com.example.rickandmorty
+package com.rickandmorty.ui.characterlist
 
 import android.os.Bundle
 import android.util.Log
@@ -8,10 +8,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.rickandmorty.databinding.FragmentFirstBinding
 import com.rickandmorty.viewmodels.CharacterViewModel
 
-class FirstFragment : Fragment() {
+class CharacterHomeFragment : Fragment() {
 
     private var _binding: FragmentFirstBinding? = null
     private val mViewModelCharacter: CharacterViewModel by activityViewModels()
@@ -29,17 +30,32 @@ class FirstFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        //instancia de adaptador listado desde room
+        val adapter = CharactesrAdapter()
+        binding.rvCharacter.adapter = adapter
+        binding.rvCharacter.layoutManager = LinearLayoutManager(context)
 
+
+        //get desde DB roomh
+        mViewModelCharacter.characterLiveDataFromDataBase.observe(viewLifecycleOwner){
+            it?.let {
+                Log.d("LISTADO", "$it")
+                adapter.update(it)
+            }
+        }
+
+
+       //buscador por nombre asociar adapter
         mViewModelCharacter.searchDataByName("Doofus")
-        mViewModelCharacter.characterLiveDataFromDataBase
+
          mViewModelCharacter.allCharacterDatafromNet.observe(viewLifecycleOwner) {
 
     Log.d("DATOSFirstBuscador", "$it")
 }
 
-        binding.buttonFirst.setOnClickListener {
+       /* binding.buttonFirst.setOnClickListener {
             findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment)
-        }
+        }*/
     }
 
     override fun onDestroyView() {
