@@ -10,5 +10,7 @@ interface ICharacterService {
 
     @GET("character")
     suspend fun getAllCharacter(@Query("page") page: Int) : Response<CharacterResponse>
+    @GET("character")
+    suspend fun searchAllCharacter(@Query("name") name: String) : Response<CharacterResponse>
 
 }

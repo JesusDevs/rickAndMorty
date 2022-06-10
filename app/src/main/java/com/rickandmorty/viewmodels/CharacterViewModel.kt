@@ -13,7 +13,10 @@ import com.rickandmorty.model.pojo.Result
 
 class CharacterViewModel (application: Application): AndroidViewModel(application) {
         private val repository: CharacterRepository
+        //desde data base
         val characterLiveDataFromDataBase : LiveData<List<Result>>
+        //desde internet
+       val allCharacterDatafromNet : LiveData<List<Result>>
 
         init {
 
@@ -24,13 +27,18 @@ class CharacterViewModel (application: Application): AndroidViewModel(applicatio
                 repository.getCharactersWithCoroutines(page = 1)
             }
 
+            allCharacterDatafromNet=repository.liveDataCharResponse
             characterLiveDataFromDataBase = repository.liveDataCharactersDB
         }
-        fun getGameByID(id:String) : LiveData<Result> {
+         //corutina para buscar personajes por nombre
+        fun searchDataByName(name :String ) = viewModelScope.launch {
+        repository.searchCharactersWithCoroutines(name)
+        }
+        fun getCharByID(id:String) : LiveData<Result> {
             return repository.getCharacterByID(id)
         }
 
-        fun getGameByPlatform() : LiveData<List<Result>> {
+        fun getCharByName() : LiveData<List<Result>> {
             return repository.getAllCharacter()
         }
 

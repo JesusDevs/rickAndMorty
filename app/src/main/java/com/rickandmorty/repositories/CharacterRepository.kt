@@ -11,6 +11,7 @@ class CharacterRepository(private val dao: CharacterDao) {
 
     //private val services = RetrofitGames.getRetrofitInstance()
     val liveDataCharactersDB : LiveData<List<Result>> = dao.getAllCharactersDataBase()
+    val liveDataCharResponse = MutableLiveData<List<Result>>()
 
     suspend fun getCharactersWithCoroutines( page :Int)  {
         try {
@@ -29,6 +30,26 @@ class CharacterRepository(private val dao: CharacterDao) {
             Log.e("ERROR CORUTINA", t.message.toString())
         }
     }
+
+    suspend fun searchCharactersWithCoroutines( name :String)  {
+        try {
+            val response = Retrofit.getRetrofitInstance().searchAllCharacter(name)
+
+            when(response.isSuccessful) {
+
+                true -> response.body()?.let {
+                    liveDataCharResponse.value=it.results
+                   // debo observar lo que llega
+                    Log.d("repoCharacter", "${it.results}")
+                }
+                false -> Log.d("ERROR", " ${response.code()} : ${response.errorBody()} ")
+            }
+        } catch (t: Throwable){
+            Log.e("ERROR CORUTINA", t.message.toString())
+        }
+    }
+
+
 
   fun getCharacterByID(id: String) : LiveData<Result> {
        return dao.getCharacterByID(id)
