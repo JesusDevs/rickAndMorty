@@ -1,6 +1,7 @@
 package com.rickandmorty.viewmodels
 
 import android.app.Application
+import android.text.Editable
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope
@@ -33,7 +34,7 @@ class CharacterViewModel (application: Application): AndroidViewModel(applicatio
         }
 
          //corutina para buscar personajes por nombre
-        fun searchDataByName(name :String ) = viewModelScope.launch {
+        fun searchDataByName(name: Editable) = viewModelScope.launch {
         repository.searchCharactersWithCoroutines(name)
         }
 

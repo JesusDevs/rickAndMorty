@@ -1,5 +1,6 @@
 package com.rickandmorty.repositories
 
+import android.text.Editable
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -32,7 +33,7 @@ class CharacterRepository(private val dao: CharacterDao) {
         }
     }
 
-    suspend fun searchCharactersWithCoroutines( name :String)  {
+    suspend fun searchCharactersWithCoroutines(name: Editable)  {
         try {
             val response = Retrofit.getRetrofitInstance().searchAllCharacter(name)
 

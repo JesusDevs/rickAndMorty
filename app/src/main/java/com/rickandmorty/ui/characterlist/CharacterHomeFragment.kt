@@ -1,33 +1,26 @@
 package com.rickandmorty.ui.characterlist
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.LayoutInflater
-
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.widget.SearchView
-
-import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.navigation.fragment.NavHostFragment.Companion.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.rickandmorty.R
 import com.example.rickandmorty.databinding.FragmentFirstBinding
 import com.rickandmorty.viewmodels.CharacterViewModel
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.runBlocking
-import kotlin.math.log
-
-class CharacterHomeFragment : Fragment() ,SearchView.OnQueryTextListener{
+class CharacterHomeFragment : Fragment() {
 
     private var _binding: FragmentFirstBinding? = null
     private val mViewModelCharacter: CharacterViewModel by activityViewModels()
     private var page: Int = 1
     private val binding get() = _binding!!
     val adapter = CharactesrAdapter()
+    val adapterSearch = SearchAdapter()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -52,9 +45,28 @@ class CharacterHomeFragment : Fragment() ,SearchView.OnQueryTextListener{
                 adapter.update(it.toMutableList())
             }
         }
-        mViewModelCharacter.characterLiveDataByName.observe(viewLifecycleOwner) {
-            adapter.update(it.toMutableList())
-        }
+
+        binding.search.addTextChangedListener(object : TextWatcher {
+
+            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
+
+            }
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+
+            }
+
+            override fun afterTextChanged(s: Editable) {
+                if (s.length>0) {
+                    binding.rvsearch.visibility =View.VISIBLE
+                    binding.rvCharacter.visibility =View.GONE
+                    mViewModelCharacter.searchDataByName(s)
+
+                } else {
+                    binding.rvCharacter.visibility =View.VISIBLE
+                    binding.rvsearch.visibility =View.GONE
+                }
+            }
+        })
 
 
         //capturar el onjeto al que se le dio click
@@ -70,7 +82,7 @@ class CharacterHomeFragment : Fragment() ,SearchView.OnQueryTextListener{
                 bundle.putString("genre", it.gender)
 
                 Log.d("tagselec", it.id.toString())
-                findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment, bundle)
+                findNavController().navigate(com.example.rickandmorty.R.id.action_FirstFragment_to_SecondFragment, bundle)
             }
 
         }}
@@ -78,17 +90,6 @@ class CharacterHomeFragment : Fragment() ,SearchView.OnQueryTextListener{
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-    }
-
-    override fun onQueryTextSubmit(query: String): Boolean {
-        mViewModelCharacter.searchDataByName(query)
-        //buscador por nombre asociar adapter
-
-        return true
-    }
-
-    override fun onQueryTextChange(newText: String?): Boolean {
-        TODO("Not yet implemented")
     }
 
 }
