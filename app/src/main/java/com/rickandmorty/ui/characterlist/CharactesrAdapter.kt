@@ -26,17 +26,13 @@ class CharactesrAdapter :RecyclerView.Adapter<CharactesrAdapter.CharactersVH>(){
         RecyclerView.ViewHolder(binding.root), View.OnClickListener{
 
         fun bind(itemChar: Result){
-
+            binding.edName.text = itemChar.name
             binding.imageView.loadSvg(itemChar.image)
-
             itemView.setOnClickListener(this)
-
-
         }
         override fun onClick(p0: View?) {
             selectedItem.value=listCharacterItem[adapterPosition]
         }
-
 
     }
 
@@ -51,8 +47,5 @@ class CharactesrAdapter :RecyclerView.Adapter<CharactesrAdapter.CharactersVH>(){
 
     override fun getItemCount(): Int =
         listCharacterItem.size
-
-
-
 
 }

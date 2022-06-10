@@ -9,7 +9,6 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.rickandmorty.R
 import com.example.rickandmorty.databinding.FragmentDetailBinding
-import com.example.rickandmorty.databinding.FragmentSecondBinding
 import com.rickandmorty.utils.loadSvg
 import com.rickandmorty.viewmodels.CharacterViewModel
 
