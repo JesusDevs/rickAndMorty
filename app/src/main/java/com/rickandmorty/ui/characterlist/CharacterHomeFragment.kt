@@ -8,11 +8,15 @@ import android.view.ViewGroup
 import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.NavHostFragment.Companion.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.rickandmorty.R
 import com.example.rickandmorty.databinding.FragmentFirstBinding
 import com.rickandmorty.viewmodels.CharacterViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
+import kotlin.math.log
 
 class CharacterHomeFragment : Fragment() {
 
@@ -37,24 +41,34 @@ class CharacterHomeFragment : Fragment() {
         binding.rvCharacter.adapter = adapter
         binding.rvCharacter.layoutManager = LinearLayoutManager(context)
 
-        // observando con livedata
-
-        mViewModelCharacter.dataNextPage(page)
-        runBlocking{
-            mViewModelCharacter.allCharacterDataPage.observe(viewLifecycleOwner){
+            //getList DataBase
+            mViewModelCharacter.characterLiveDataFromDataBase.observe(viewLifecycleOwner){
             it?.let {
-                Log.d("LISTADO", "$it")
+                Log.d("listResultFirsFragment", "$it")
                 adapter.update(it.toMutableList())
-                binding.nestedScroll.setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener { v, scrollX, scrollY, oldScrollX, oldScrollY ->
-                    if ( scrollY > 300) {
-                        page++
-                    }
-                })
             }
         }
 
+        //capturar el onjeto al que se le dio click
+        adapter.selectedItem().observe(viewLifecycleOwner){
+            it.let {
+
+                val bundle = Bundle()
+                bundle.putInt("id",it.id)
+                bundle.putString("name",it.name)
+                bundle.putString("specie",it.species)
+                bundle.putString("created",it.created)
+                bundle.putString("img",it.image)
+                bundle.putString("genre",it.gender)
+
+
+
+                Log.d("tagselec", it.id.toString())
+                findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment,bundle)
+            }
 
         }
+
 
 
      /*  //buscador por nombre asociar adapter
@@ -66,7 +80,7 @@ class CharacterHomeFragment : Fragment() {
 }
 
        *//* binding.buttonFirst.setOnClickListener {
-            findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment)
+
         }*/
     }
 
