@@ -14,8 +14,9 @@ import com.rickandmorty.model.pojo.Result
 class CharacterViewModel (application: Application): AndroidViewModel(application) {
         private val repository: CharacterRepository
         //desde data base
-        lateinit var characterLiveDataFromDataBase : LiveData<List<Result>>
+         var characterLiveDataFromDataBase : LiveData<List<Result>>
         //desde internet name
+        var characterLiveDataByName : LiveData<List<Result>>
 
 
 
@@ -27,6 +28,7 @@ class CharacterViewModel (application: Application): AndroidViewModel(applicatio
             viewModelScope.launch {
                 repository.getCharactersWithCoroutines(page = 1)
             }
+            characterLiveDataByName = repository.liveDataCharResponse
         characterLiveDataFromDataBase = repository.liveDataCharactersDB
         }
 
