@@ -2,6 +2,7 @@ package com.rickandmorty.repositories
 
 import android.util.Log
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.rickandmorty.model.pojo.Result
 import com.rickandmorty.model.database.CharacterDao
 import com.rickandmorty.remote.Retrofit
@@ -18,9 +19,9 @@ class CharacterRepository(private val dao: CharacterDao) {
             when(response.isSuccessful) {
 
                 true -> response.body()?.let {
-                    //inserte los personajes en la base de datos
-                    dao.insertAllCharacter(it)
-                    Log.d("repoCharacter", "$it")
+                    //inserto los personajes en la base de datos
+                    dao.insertAllCharacter(it.results)
+                    Log.d("repoCharacter", "${it.results}")
                 }
                 false -> Log.d("ERROR", " ${response.code()} : ${response.errorBody()} ")
             }

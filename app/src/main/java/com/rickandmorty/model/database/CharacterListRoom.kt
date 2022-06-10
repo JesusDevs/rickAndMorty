@@ -7,7 +7,7 @@ import androidx.room.RoomDatabase
 import com.rickandmorty.model.pojo.Result
 
 
-@Database(entities = [Result::class],version = 1)
+@Database(entities = [Result::class],version = 1 , exportSchema = false)
 abstract class CharacterListRoom: RoomDatabase() {
 
         abstract fun getCharacterDao( ): CharacterDao
