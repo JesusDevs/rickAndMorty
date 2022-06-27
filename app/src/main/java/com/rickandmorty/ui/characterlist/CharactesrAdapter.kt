@@ -6,16 +6,16 @@ import android.view.ViewGroup
 import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.RecyclerView
 import com.example.rickandmorty.databinding.CharItemListBinding
-import com.rickandmorty.model.pojo.Result
+import com.rickandmorty.model.pojo.ResultCharacter
 import com.rickandmorty.utils.loadSvg
 
 class CharactesrAdapter :RecyclerView.Adapter<CharactesrAdapter.CharactersVH>(){
 
-    private var listCharacterItem = mutableListOf<Result>()
-    private var selectedItem = MutableLiveData<Result>()
+    private var listCharacterItem = mutableListOf<ResultCharacter>()
+    private var selectedItem = MutableLiveData<ResultCharacter>()
     fun selectedItem()=selectedItem
 
-    fun update(list: MutableList<Result>){
+    fun update(list: MutableList<ResultCharacter>){
         list.addAll(listCharacterItem)
         listCharacterItem=list
         notifyDataSetChanged()
@@ -25,7 +25,7 @@ class CharactesrAdapter :RecyclerView.Adapter<CharactesrAdapter.CharactersVH>(){
     inner class CharactersVH(private val binding: CharItemListBinding ):
         RecyclerView.ViewHolder(binding.root), View.OnClickListener{
 
-        fun bind(itemChar: Result){
+        fun bind(itemChar: ResultCharacter){
             binding.edName.text = itemChar.name
             binding.imageView.loadSvg(itemChar.image)
             itemView.setOnClickListener(this)

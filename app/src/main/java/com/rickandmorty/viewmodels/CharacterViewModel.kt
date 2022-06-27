@@ -1,52 +1,47 @@
 package com.rickandmorty.viewmodels
 
+import android.annotation.SuppressLint
 import android.app.Application
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
+import androidx.paging.*
 import com.rickandmorty.model.database.CharacterListRoom
 import com.rickandmorty.repositories.CharacterRepository
 import kotlinx.coroutines.launch
-import com.rickandmorty.model.pojo.Result
+import com.rickandmorty.model.pojo.ResultCharacter
+import kotlinx.coroutines.InternalCoroutinesApi
 
 
 
+@SuppressLint("CheckResult")
 class CharacterViewModel (application: Application): AndroidViewModel(application) {
         private val repository: CharacterRepository
         //desde data base
-         var characterLiveDataFromDataBase : LiveData<List<Result>>
+        lateinit var characterLiveDataFromDataBase : MutableLiveData<List<ResultCharacter>>
         //desde internet name
-        var characterLiveDataByName : LiveData<List<Result>>
-
-
+        var characterLiveDataByName : LiveData<PagingData<ResultCharacter>>
 
 
         init {
             val dao = CharacterListRoom.getDataBase(application).getCharacterDao()
             repository= CharacterRepository(dao)
 
-            viewModelScope.launch {
-                repository.getCharactersWithCoroutines(page = 1)
-            }
-            characterLiveDataByName = repository.liveDataCharResponse
-        characterLiveDataFromDataBase = repository.liveDataCharactersDB
+            characterLiveDataByName = repository.getAllCharacters()
+
         }
 
          //corutina para buscar personajes por nombre
-        fun searchDataByName(name :String ) = viewModelScope.launch {
-        repository.searchCharactersWithCoroutines(name)
-        }
 
          fun dataNextPage(page :Int ) = viewModelScope.launch {
-             repository.getCharactersWithCoroutines(page)
+           //  repository.getCharactersWithCoroutines(page)
          }
 
-
-        fun getCharByID(id:String) : LiveData<Result> {
+        fun searchDataByName(name :String ) = viewModelScope.launch {
+            repository.searchCharactersWithCoroutines(name)}
+        fun getCharByID(id:String) : LiveData<ResultCharacter> {
             return repository.getCharacterByID(id)
         }
 
-        fun getCharByName() : LiveData<List<Result>> {
+        fun getCharByName() : LiveData<List<ResultCharacter>> {
             return repository.getAllCharacter()
         }
 

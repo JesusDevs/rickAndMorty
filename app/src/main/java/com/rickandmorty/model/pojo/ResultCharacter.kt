@@ -7,7 +7,7 @@ import com.google.gson.annotations.SerializedName
 
 
 @Entity(tableName = "all_character_table" )
-data class Result(
+data class ResultCharacter(
     @SerializedName("created")
     val created: String,
     @SerializedName("gender")

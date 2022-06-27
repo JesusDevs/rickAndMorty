@@ -11,6 +11,7 @@ import androidx.appcompat.widget.SearchView
 import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.NavHostFragment.Companion.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -18,6 +19,7 @@ import com.example.rickandmorty.R
 import com.example.rickandmorty.databinding.FragmentFirstBinding
 import com.rickandmorty.viewmodels.CharacterViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlin.math.log
 
@@ -28,6 +30,7 @@ class CharacterHomeFragment : Fragment() ,SearchView.OnQueryTextListener{
     private var page: Int = 1
     private val binding get() = _binding!!
     val adapter = CharactesrAdapter()
+    val adapterPage = PageCharacterAdapter()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -42,38 +45,19 @@ class CharacterHomeFragment : Fragment() ,SearchView.OnQueryTextListener{
         super.onViewCreated(view, savedInstanceState)
         //instancia de adaptador listado desde room
 
-        binding.rvCharacter.adapter = adapter
+        binding.rvCharacter.adapter = adapterPage
         binding.rvCharacter.layoutManager = LinearLayoutManager(context)
 
-            //getList DataBase
-            mViewModelCharacter.characterLiveDataFromDataBase.observe(viewLifecycleOwner){
-            it?.let {
+        //getList DataBase
+        lifecycleScope.launch {
+            mViewModelCharacter.characterLiveDataByName.observe(viewLifecycleOwner) {
                 Log.d("listResultFirsFragment", "$it")
-                adapter.update(it.toMutableList())
-            }
-        }
-        mViewModelCharacter.characterLiveDataByName.observe(viewLifecycleOwner) {
-            adapter.update(it.toMutableList())
-        }
-
-
-        //capturar el onjeto al que se le dio click
-        adapter.selectedItem().observe(viewLifecycleOwner) {
-            it.let {
-
-                val bundle = Bundle()
-                bundle.putInt("id", it.id)
-                bundle.putString("name", it.name)
-                bundle.putString("specie", it.species)
-                bundle.putString("created", it.created)
-                bundle.putString("img", it.image)
-                bundle.putString("genre", it.gender)
-
-                Log.d("tagselec", it.id.toString())
-                findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment, bundle)
+                adapterPage.submitData(viewLifecycleOwner.lifecycle, it)
             }
 
-        }}
+        }
+
+    }
 
     override fun onDestroyView() {
         super.onDestroyView()

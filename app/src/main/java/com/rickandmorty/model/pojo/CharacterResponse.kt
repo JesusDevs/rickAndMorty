@@ -2,7 +2,6 @@ package com.rickandmorty.model.pojo
 
 
 
-import androidx.room.Entity
 import com.google.gson.annotations.SerializedName
 
 
@@ -11,5 +10,5 @@ data class CharacterResponse(
     val info: Info,
 
     @SerializedName("results")
-    val results: List<Result>
+    val results: List<ResultCharacter>
 )

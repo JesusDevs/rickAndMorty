@@ -4,10 +4,10 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.rickandmorty.model.pojo.Result
+import com.rickandmorty.model.pojo.ResultCharacter
 
 
-@Database(entities = [Result::class],version = 1 , exportSchema = false)
+@Database(entities = [ResultCharacter::class],version = 1 , exportSchema = false)
 abstract class CharacterListRoom: RoomDatabase() {
 
         abstract fun getCharacterDao( ): CharacterDao
