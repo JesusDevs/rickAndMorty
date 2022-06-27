@@ -11,28 +11,24 @@ import com.rickandmorty.model.pojo.ResultCharacter
 import kotlinx.coroutines.InternalCoroutinesApi
 
 
-
-@SuppressLint("CheckResult")
 class CharacterViewModel (application: Application): AndroidViewModel(application) {
         private val repository: CharacterRepository
         //desde data base
         lateinit var characterLiveDataFromDataBase : MutableLiveData<List<ResultCharacter>>
-        //desde internet name
+        //desde internet obvsernado paginado
         var characterLiveDataByName : LiveData<PagingData<ResultCharacter>>
 
 
         init {
             val dao = CharacterListRoom.getDataBase(application).getCharacterDao()
             repository= CharacterRepository(dao)
-
+            //observando desde internet
             characterLiveDataByName = repository.getAllCharacters()
-
         }
 
          //corutina para buscar personajes por nombre
 
          fun dataNextPage(page :Int ) = viewModelScope.launch {
-           //  repository.getCharactersWithCoroutines(page)
          }
 
         fun searchDataByName(name :String ) = viewModelScope.launch {

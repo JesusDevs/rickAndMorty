@@ -1,14 +1,12 @@
 package com.rickandmorty.pagingsource
 
+import android.util.Log
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.rickandmorty.model.pojo.ResultCharacter
 import com.rickandmorty.remote.ICharacterService
 
-class RickyMortyPagingSource
-    (
-    private val apiService: ICharacterService
-) : PagingSource<Int, ResultCharacter>() {
+class RickyMortyPagingSource(private val apiService: ICharacterService) : PagingSource<Int, ResultCharacter>() {
 
     override fun getRefreshKey(state: PagingState<Int, ResultCharacter>): Int? {
         return null
@@ -27,7 +25,7 @@ class RickyMortyPagingSource
             //si el response no es null y tiene datos agregar si no emptylist
             val data = response.body()?.results ?: emptyList()
             responseData.addAll(data)
-
+            Log.d("RickyMortyPagingSource", "load: ${responseData}")
             LoadResult.Page(
                 data = responseData,
                 prevKey = if (currentPage == 1) null else -1,
