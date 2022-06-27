@@ -19,6 +19,7 @@ import com.example.rickandmorty.R
 import com.example.rickandmorty.databinding.FragmentFirstBinding
 import com.rickandmorty.viewmodels.CharacterViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlin.math.log
@@ -48,15 +49,19 @@ class CharacterHomeFragment : Fragment() ,SearchView.OnQueryTextListener{
         binding.rvCharacter.adapter = adapterPage
         binding.rvCharacter.layoutManager = LinearLayoutManager(context)
 
-        //getList DataBase
-        lifecycleScope.launch {
+        //observer live data
+       /* lifecycleScope.launch {
             mViewModelCharacter.characterLiveDataByName.observe(viewLifecycleOwner) {
                 Log.d("listResultFirsFragment", "$it")
                 adapterPage.submitData(viewLifecycleOwner.lifecycle, it)
             }
 
-        }
+        }*/
+        lifecycleScope.launch {
+            mViewModelCharacter.characterPageFlow().collectLatest {
+                adapterPage.submitData(viewLifecycleOwner.lifecycle, it)
 
+            }}
     }
 
     override fun onDestroyView() {
