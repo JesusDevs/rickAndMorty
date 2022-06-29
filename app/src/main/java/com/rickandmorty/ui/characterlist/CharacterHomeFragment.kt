@@ -2,10 +2,8 @@ package com.rickandmorty.ui.characterlist
 
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
+import android.view.*
 
-import android.view.View
-import android.view.ViewGroup
 import androidx.appcompat.widget.SearchView
 
 import androidx.core.widget.NestedScrollView
@@ -24,7 +22,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlin.math.log
 
-class CharacterHomeFragment : Fragment() ,SearchView.OnQueryTextListener{
+class CharacterHomeFragment : Fragment() {
 
     private var _binding: FragmentFirstBinding? = null
     private val mViewModelCharacter: CharacterViewModel by activityViewModels()
@@ -41,7 +39,6 @@ class CharacterHomeFragment : Fragment() ,SearchView.OnQueryTextListener{
 
 
     }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         //instancia de adaptador listado desde room
@@ -58,26 +55,17 @@ class CharacterHomeFragment : Fragment() ,SearchView.OnQueryTextListener{
 
         }*/
         lifecycleScope.launch {
-            mViewModelCharacter.characterPageFlow().collectLatest {
+            mViewModelCharacter.characterPageFlow().collect {
                 adapterPage.submitData(viewLifecycleOwner.lifecycle, it)
 
             }}
+
+
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-    }
-
-    override fun onQueryTextSubmit(query: String): Boolean {
-        mViewModelCharacter.searchDataByName(query)
-        //buscador por nombre asociar adapter
-
-        return true
-    }
-
-    override fun onQueryTextChange(newText: String?): Boolean {
-        TODO("Not yet implemented")
     }
 
 }

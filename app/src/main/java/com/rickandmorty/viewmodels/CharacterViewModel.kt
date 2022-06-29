@@ -24,16 +24,22 @@ class CharacterViewModel (application: Application): AndroidViewModel(applicatio
             val dao = CharacterListRoom.getDataBase(application).getCharacterDao()
             repository= CharacterRepository(dao)
             //observando desde internet live data
-           // characterLiveDataByName = repository.getAllCharacters()
+
         }
 
          //corutina con flow
          fun characterPageFlow(): Flow<PagingData<ResultCharacter>> =repository.getAllCharactersFlow().cachedIn(viewModelScope)
+        //corutina con live data
+        fun characterLiveData(query:String): LiveData<PagingData<ResultCharacter>> =repository.getAllCharactersSearch(query).cachedIn(viewModelScope)
+        //observando desde internet live data sepuede iniciar en bloque init
+        fun characterLiveDataList(): LiveData<PagingData<ResultCharacter>> = repository.getAllCharacters()
+
 
          fun dataNextPage(page :Int ) = viewModelScope.launch {
          }
 
         fun searchDataByName(name :String ) = viewModelScope.launch {
+
             }
 
         fun getCharByID(id:String) : LiveData<ResultCharacter> {
