@@ -12,9 +12,10 @@ import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 
 
-class CharacterViewModel (application: Application): AndroidViewModel(application) {
-        private val repository: CharacterRepository
-        //desde data base
+class CharacterViewModel ( application: Application,  var repository: CharacterRepository): AndroidViewModel(application) {
+
+
+    //desde data base
         lateinit var characterLiveDataFromDataBase : MutableLiveData<List<ResultCharacter>>
         //desde internet obvsernado paginado
        // var characterLiveDataByName : LiveData<PagingData<ResultCharacter>>
