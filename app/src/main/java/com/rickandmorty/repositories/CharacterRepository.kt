@@ -44,7 +44,6 @@ class CharacterRepository(private val dao: CharacterDao) {
     fun getAllCharactersSearch(query:String)=
         Pager(config = PagingConfig(
             pageSize = 10,
-            maxSize = 100,
             enablePlaceholders = false
         ),
             pagingSourceFactory = { RickyMortySearchSource(services,query) }

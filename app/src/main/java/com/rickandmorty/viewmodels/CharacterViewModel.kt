@@ -30,7 +30,7 @@ class CharacterViewModel (application: Application): AndroidViewModel(applicatio
          //corutina con flow
          fun characterPageFlow(): Flow<PagingData<ResultCharacter>> =repository.getAllCharactersFlow().cachedIn(viewModelScope)
         //corutina con live data
-        fun characterLiveData(query:String): LiveData<PagingData<ResultCharacter>> =repository.getAllCharactersSearch(query).cachedIn(viewModelScope)
+        fun characterSearchLiveData(query:String): LiveData<PagingData<ResultCharacter>> =repository.getAllCharactersSearch(query).cachedIn(viewModelScope)
         //observando desde internet live data sepuede iniciar en bloque init
         fun characterLiveDataList(): LiveData<PagingData<ResultCharacter>> = repository.getAllCharacters()
 

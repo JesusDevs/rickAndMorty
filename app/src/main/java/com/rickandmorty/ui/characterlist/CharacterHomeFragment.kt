@@ -1,5 +1,6 @@
 package com.rickandmorty.ui.characterlist
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
 import android.view.*
@@ -15,11 +16,14 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.rickandmorty.R
 import com.example.rickandmorty.databinding.FragmentFirstBinding
+import com.google.gson.Gson
 import com.rickandmorty.viewmodels.CharacterViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
+import retrofit2.converter.gson.GsonConverterFactory
+import timber.log.Timber
 import kotlin.math.log
 
 class CharacterHomeFragment : Fragment() {
@@ -54,13 +58,22 @@ class CharacterHomeFragment : Fragment() {
             }
 
         }*/
-        lifecycleScope.launch {
+
+        //observer con flow
+        /*lifecycleScope.launch {
             mViewModelCharacter.characterPageFlow().collect {
                 adapterPage.submitData(viewLifecycleOwner.lifecycle, it)
 
             }}
+*/
+        lifecycleScope.launch {
+            mViewModelCharacter.characterSearchLiveData("").observe(viewLifecycleOwner) { list->
 
+               adapterPage.submitData(viewLifecycleOwner.lifecycle, list)
+                Timber.d("aca timber ok")
+            }
 
+        }
     }
 
     override fun onDestroyView() {

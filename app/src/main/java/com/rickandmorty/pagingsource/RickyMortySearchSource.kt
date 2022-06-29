@@ -36,8 +36,8 @@ class RickyMortySearchSource(
             Log.d("RickyMortyPagingSource", "load: ${responseData}")
             LoadResult.Page(
                 data = responseData,
-                prevKey = if (currentPage == 1) null else -1,
-                nextKey = currentPage.plus(1)
+                prevKey = if (currentPage == START_PAGE) null else -1,
+                nextKey = if (response.body()?.info?.next == null) null else currentPage + 1
             )
         } catch (e: Exception) {
             LoadResult.Error(e)
