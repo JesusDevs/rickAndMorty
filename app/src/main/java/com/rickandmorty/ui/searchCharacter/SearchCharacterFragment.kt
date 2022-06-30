@@ -28,7 +28,7 @@ class SearchCharacterFragment : Fragment() {
 
     private val binding get() = _binding!!
     val adapter = CharactesrAdapter()
-    val adapterPage = PageCharacterAdapter()
+    val adapterPage = PageCharacterSearchAdapter()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?

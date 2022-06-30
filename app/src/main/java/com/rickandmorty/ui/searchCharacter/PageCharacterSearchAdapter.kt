@@ -1,5 +1,6 @@
 package com.rickandmorty.ui.searchCharacter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,6 +13,7 @@ import coil.load
 import com.example.rickandmorty.databinding.CharItemListBinding
 import com.rickandmorty.model.pojo.ResultCharacter
 import com.rickandmorty.utils.loadSvg
+import timber.log.Timber
 
 
 class PageCharacterSearchAdapter : PagingDataAdapter<ResultCharacter,
@@ -28,6 +30,7 @@ class PageCharacterSearchAdapter : PagingDataAdapter<ResultCharacter,
         }
 
         override fun onClick(p0: View?) {
+            Timber.tag("PageCharacter").d("onClick%s", p0?.id)
 
         }
     }

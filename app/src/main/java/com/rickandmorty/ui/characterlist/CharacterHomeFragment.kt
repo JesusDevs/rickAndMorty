@@ -34,11 +34,9 @@ import kotlin.math.log
 class CharacterHomeFragment : Fragment() {
 
     private var _binding: FragmentFirstBinding? = null
-    private val mViewModelCharacter: CharacterViewModel by activityViewModels()
 
     private val binding get() = _binding!!
-    val adapter = CharactesrAdapter()
-    val adapterPage = PageCharacterAdapter()
+    private val adapterPage = PageCharacterAdapter()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -57,22 +55,28 @@ class CharacterHomeFragment : Fragment() {
         val viewModelProviderFactory= activity?.let { ViewModelFactory(it.application, repository) }
         val viewModel= viewModelProviderFactory?.let { ViewModelProvider(this, it) }?.get(CharacterViewModel::class.java)
 
-        //observer live data
-       /* lifecycleScope.launch {
-            mViewModelCharacter.characterLiveDataByName.observe(viewLifecycleOwner) {
-                Log.d("listResultFirsFragment", "$it")
-                adapterPage.submitData(viewLifecycleOwner.lifecycle, it)
-            }
 
-        }*/
 
         //observer con flow
-        /*lifecycleScope.launch {
-            mViewModelCharacter.characterPageFlow().collect {
+        lifecycleScope.launch {
+            viewModel?.characterPageFlow()?.collect {
                 adapterPage.submitData(viewLifecycleOwner.lifecycle, it)
 
-            }}
-*/
+            }
+        }
+
+        /**
+         * OPCIONES DE observer con coroutine
+         */
+        //observer live data
+        /* lifecycleScope.launch {
+             mViewModelCharacter.characterLiveDataByName.observe(viewLifecycleOwner) {
+                 Log.d("listResultFirsFragment", "$it")
+                 adapterPage.submitData(viewLifecycleOwner.lifecycle, it)
+             }
+
+         }*/
+       /*observer livedata query
         lifecycleScope.launch {
             viewModel?.characterSearchLiveData("")?.observe(viewLifecycleOwner) { list->
 
@@ -80,7 +84,7 @@ class CharacterHomeFragment : Fragment() {
                 Timber.d("aca timber ok")
             }
 
-        }
+        }*/
     }
 
     override fun onDestroyView() {
