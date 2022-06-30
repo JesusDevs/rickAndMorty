@@ -1,35 +1,25 @@
-package com.rickandmorty.ui.characterlist
+package com.rickandmorty.ui.searchCharacter
 
-import android.annotation.SuppressLint
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 
 import androidx.appcompat.widget.SearchView
 
-import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.observe
-import androidx.navigation.fragment.NavHostFragment.Companion.findNavController
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.rickandmorty.MainActivity
-import com.example.rickandmorty.R
-import com.example.rickandmorty.databinding.FragmentFirstBinding
 import com.example.rickandmorty.databinding.FragmentSearchNewsBinding
-import com.google.gson.Gson
 import com.rickandmorty.model.database.CharacterListRoom
 import com.rickandmorty.repositories.CharacterRepository
+import com.rickandmorty.ui.characterlist.CharactesrAdapter
+import com.rickandmorty.ui.characterlist.PageCharacterAdapter
 import com.rickandmorty.viewmodels.CharacterViewModel
 import com.rickandmorty.viewmodels.ViewModelFactory
 import kotlinx.coroutines.*
-import kotlinx.coroutines.flow.collectLatest
-import retrofit2.converter.gson.GsonConverterFactory
 import timber.log.Timber
-import kotlin.math.log
 
 class SearchCharacterFragment : Fragment() {
 
@@ -60,19 +50,23 @@ class SearchCharacterFragment : Fragment() {
 
         binding.etSearch.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
-                lifecycleScope.launch {
-                    viewModel?.characterSearchLiveData("")?.observe(viewLifecycleOwner) { list ->
+                //si query es mayor a 2 characteres
+                if (query?.length!! > 2) {
+                    //llamamos al metodo de busqueda
+                    lifecycleScope.launch {
+                        viewModel?.characterSearchLiveData("")
+                            ?.observe(viewLifecycleOwner) { list ->
 
-                        adapterPage.submitData(viewLifecycleOwner.lifecycle, list)
-                        Timber.d("aca timber ok")
+                                adapterPage.submitData(viewLifecycleOwner.lifecycle, list)
+                                Timber.d("aca timber ok")
+                            }
                     }
                 }
-
                     return false
             }
             override fun onQueryTextChange(newText: String?): Boolean {
                 lifecycleScope.launch {
-                    if (newText != null) {
+                    if (newText != null && newText.length > 2) {
                         viewModel?.characterSearchLiveData(newText)?.observe(viewLifecycleOwner) { list ->
                             adapterPage.submitData(viewLifecycleOwner.lifecycle, list)
                             Timber.d("aca timber ok")
