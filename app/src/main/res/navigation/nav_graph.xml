@@ -15,6 +15,18 @@
             app:destination="@id/detailFrg" />
     </fragment>
     <fragment
+        android:id="@+id/searchNewsFragment"
+        android:name="com.rickandmorty.ui.characterlist.SearchCharacterFragment"
+        android:label="SearchNewsFragment" >
+        <action
+            android:id="@+id/action_searchNewsFragment_to_detailfrg"
+            app:destination="@id/detailFrg"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
+    </fragment>
+    <fragment
         android:id="@+id/detailFrg"
         android:name="com.rickandmorty.ui.characterlist.DetalleFragment"
         android:label="Detail"

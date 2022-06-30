@@ -25,7 +25,6 @@ class RickyMortyPagingSource(private val apiService: ICharacterService) : Paging
             //si el response no es null y tiene datos agregar si no emptylist
             val data = response.body()?.results ?: emptyList()
             responseData.addAll(data)
-            Log.d("RickyMortyPagingSource", "load: ${responseData}")
             LoadResult.Page(
                 data = responseData,
                 prevKey = if (currentPage == 1) null else -1,
