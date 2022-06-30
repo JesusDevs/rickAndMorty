@@ -1,19 +1,18 @@
 package com.rickandmorty.ui.searchCharacter
 
-import android.util.Log
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.paging.PagingDataAdapter
+import androidx.navigation.Navigation.findNavController
 
+import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-
-import coil.load
+import com.example.rickandmorty.R
 import com.example.rickandmorty.databinding.CharItemListBinding
 import com.rickandmorty.model.pojo.ResultCharacter
 import com.rickandmorty.utils.loadSvg
-import timber.log.Timber
 
 
 class PageCharacterSearchAdapter : PagingDataAdapter<ResultCharacter,
@@ -26,14 +25,22 @@ class PageCharacterSearchAdapter : PagingDataAdapter<ResultCharacter,
         fun bind(itemChar: ResultCharacter){
             binding.edName.text = itemChar.name
             binding.imageView.loadSvg(itemChar.image)
+            binding.imageView.setOnClickListener{
+                Bundle().apply {
+                    putString("img", itemChar.image)
+                    findNavController(it).navigate(R.id.action_searchNewsFragment_to_detailfrg, this)
+                }
+            }
             itemView.setOnClickListener(this)
+
         }
 
         override fun onClick(p0: View?) {
-            Timber.tag("PageCharacter").d("onClick%s", p0?.id)
 
         }
     }
+
+
 
     companion object {
         val diffCallback = object : DiffUtil.ItemCallback<ResultCharacter>() {

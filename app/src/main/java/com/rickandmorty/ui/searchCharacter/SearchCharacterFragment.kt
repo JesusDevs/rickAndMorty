@@ -40,9 +40,10 @@ class SearchCharacterFragment : Fragment() {
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        //instancia de adaptador listado desde room
+        //instancia de adaptador listado desde inernet mediante una qyery
         binding.rvSearchNews.adapter = adapterPage
         binding.rvSearchNews.layoutManager = LinearLayoutManager(context)
+
         val repository= CharacterRepository(CharacterListRoom.getDataBase(requireActivity()).getCharacterDao())
         val viewModelProviderFactory= activity?.let { ViewModelFactory(it.application, repository) }
         val viewModel= viewModelProviderFactory?.let { ViewModelProvider(this, it) }?.get(CharacterViewModel::class.java)
