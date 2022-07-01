@@ -24,7 +24,7 @@ class CharacterRepository(private val dao: CharacterDao) {
     //paginado con liveData
     fun getAllCharacters()=
         Pager(config = PagingConfig(
-            pageSize = 10,
+            pageSize = 1,
             enablePlaceholders = false
         ),
             pagingSourceFactory = { RickyMortyPagingSource(services) }
@@ -33,7 +33,7 @@ class CharacterRepository(private val dao: CharacterDao) {
     //paginado con flow
       fun getAllCharactersFlow():Flow<PagingData<ResultCharacter>> {
         return Pager(config = PagingConfig(
-            pageSize = 10,
+            pageSize = 1,
             enablePlaceholders = false
         ),
             pagingSourceFactory = { RickyMortyPagingSource(services) }
@@ -43,7 +43,7 @@ class CharacterRepository(private val dao: CharacterDao) {
     //paginado con liveData y query para el buscador
     fun getAllCharactersSearch(query:String)=
         Pager(config = PagingConfig(
-            pageSize = 10,
+            pageSize = 1,
             enablePlaceholders = false
         ),
             pagingSourceFactory = { RickyMortySearchSource(services,query) }
