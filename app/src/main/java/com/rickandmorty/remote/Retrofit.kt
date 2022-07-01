@@ -16,9 +16,6 @@ object Retrofit {
             interceptor.level = HttpLoggingInterceptor.Level.BODY
 
             val client = OkHttpClient.Builder()
-                .connectTimeout(10, TimeUnit.MINUTES)
-                .readTimeout(10, TimeUnit.MINUTES)
-                .writeTimeout(10, TimeUnit.MINUTES)
                 .addInterceptor { chain ->
                     chain.proceed(chain.request().newBuilder().build())
                 }
