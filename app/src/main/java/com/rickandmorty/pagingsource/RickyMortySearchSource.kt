@@ -17,7 +17,7 @@ class RickyMortySearchSource(
 
 
     override fun getRefreshKey(state: PagingState<Int, ResultCharacter>): Int? {
-        return null
+        return  state.anchorPosition
     }
 
     override suspend fun load(params: LoadParams<Int>):

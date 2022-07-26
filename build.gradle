@@ -5,6 +5,11 @@ plugins {
     id 'org.jetbrains.kotlin.android' version '1.6.21' apply false
 }
 
+ext {
+    navigation_version = "2.3.4"
+    paging_version = "3.0.0-beta03"
+}
+
 task clean(type: Delete) {
     delete rootProject.buildDir
 }

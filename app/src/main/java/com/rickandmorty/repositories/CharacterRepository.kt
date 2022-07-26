@@ -33,7 +33,7 @@ class CharacterRepository(private val dao: CharacterDao) {
     //paginado con flow
       fun getAllCharactersFlow():Flow<PagingData<ResultCharacter>> {
         return Pager(config = PagingConfig(
-            pageSize = 1,
+            pageSize = 10,
             enablePlaceholders = false
         ),
             pagingSourceFactory = { RickyMortyPagingSource(services) }

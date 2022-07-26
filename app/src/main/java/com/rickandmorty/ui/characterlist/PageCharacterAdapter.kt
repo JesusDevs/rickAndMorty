@@ -15,17 +15,23 @@ import com.rickandmorty.model.pojo.ResultCharacter
 import com.rickandmorty.utils.loadSvg
 
 
+/** Created by JesusDev on 2022-17-07
+ * @sample
+ * adapator for recycler view with PagingDataAdapter
+ *
+ **/
+
 class PageCharacterAdapter : PagingDataAdapter<ResultCharacter,
         PageCharacterAdapter.ImageViewHolder>(diffCallback) {
 
 
-    inner class ImageViewHolder(val binding: CharItemListBinding) :
+    inner class ImageViewHolder(private val binding: CharItemListBinding) :
         RecyclerView.ViewHolder(binding.root), View.OnClickListener{
 
+        //metodo para unir vista con datos mediante view binging
         fun bind(itemChar: ResultCharacter){
             binding.edName.text = itemChar.name
             binding.imageView.loadSvg(itemChar.image)
-            itemView.setOnClickListener(this)
         }
 
         override fun onClick(p0: View?) {
@@ -39,7 +45,9 @@ class PageCharacterAdapter : PagingDataAdapter<ResultCharacter,
                 return oldItem.id == newItem.id
             }
 
-            override fun areContentsTheSame(oldItem: ResultCharacter, newItem: ResultCharacter): Boolean {
+            override fun areContentsTheSame(oldItem: ResultCharacter,
+                                            newItem: ResultCharacter
+            ): Boolean {
                 return oldItem == newItem
             }
         }
@@ -51,12 +59,7 @@ class PageCharacterAdapter : PagingDataAdapter<ResultCharacter,
     }
 
     override fun onBindViewHolder(holder: ImageViewHolder, position: Int) {
-        val currChar = getItem(position)
-        if (currChar != null) {
-            holder.bind(currChar)
-        }
-
+        getItem(position)?.let { holder.bind(it) }
     }
-
 
 }

@@ -9,7 +9,7 @@ import com.rickandmorty.remote.ICharacterService
 class RickyMortyPagingSource(private val apiService: ICharacterService) : PagingSource<Int, ResultCharacter>() {
 
     override fun getRefreshKey(state: PagingState<Int, ResultCharacter>): Int? {
-        return null
+        return  state.anchorPosition
     }
 
     override suspend fun load(params: LoadParams<Int>):
@@ -28,7 +28,7 @@ class RickyMortyPagingSource(private val apiService: ICharacterService) : Paging
             LoadResult.Page(
                 data = responseData,
                 prevKey = if (currentPage == 1) null else -1,
-                nextKey = currentPage.plus(1)
+                nextKey =  if (response.body()?.info?.next == null) null else currentPage + 1
             )
         } catch (e: Exception) {
             LoadResult.Error(e)
