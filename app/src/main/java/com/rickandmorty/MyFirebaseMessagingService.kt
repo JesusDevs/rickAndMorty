@@ -1,22 +1,24 @@
 package com.rickandmorty
 
+import android.annotation.SuppressLint
+import android.app.Activity
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
+import android.widget.Toast
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 
+@SuppressLint("MissingFirebaseInstanceTokenRefresh")
 class MyFirebaseMessagingService: FirebaseMessagingService() {
-
-    override fun onNewToken(p0: String) {
-        super.onNewToken(p0)
-        Log.d("NewToken", p0)
-    }
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
         super.onMessageReceived(remoteMessage)
-        val data = remoteMessage.data
-        val title = data["title"]
-        val message = data["message"]
-        val image = data["image"]
-        val url = data["url"]
+        Log.d("TAG", "From: " + remoteMessage.from)
+        Log.d("TAG", "Notification Message Body: " + remoteMessage.notification?.body)
 
+        Handler(Looper.getMainLooper()).post {
+            Toast.makeText(this, remoteMessage.notification?.body, Toast.LENGTH_LONG).show()
+        }
     }
+
 }

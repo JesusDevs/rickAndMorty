@@ -48,7 +48,7 @@ class MainActivity : AppCompatActivity() {
                 // Log and toast
                 val msg = token?.let { "InstanceID token: $it" }
                   Timber.d(msg)
-                Toast.makeText(baseContext, msg, Toast.LENGTH_SHORT).show()
+               // Toast.makeText(baseContext, msg, Toast.LENGTH_SHORT).show()
             })
 
 
