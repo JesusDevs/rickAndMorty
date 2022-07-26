@@ -12,6 +12,14 @@
         <entry key="..\:/Users/leonr/AndroidStudioProjects/rickAndMorty/app/src/main/res/menu/bottom_nav_menu.xml" value="0.1" />
         <entry key="..\:/Users/leonr/AndroidStudioProjects/rickAndMorty/app/src/main/res/menu/menu_home.xml" value="0.2755208333333333" />
         <entry key="..\:/Users/leonr/AndroidStudioProjects/rickAndMorty/app/src/main/res/menu/menu_main.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.333" />
+        <entry key="app/src/main/res/drawable/ic_baseline_close_24.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/rounded_toast.xml" value="0.333" />
+        <entry key="app/src/main/res/layout/custom_toast_layout.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/custom_toast_layout_relative.xml" value="0.10052083333333334" />
+        <entry key="app/src/main/res/layout/ic_baseline_check_circle_24.xml" value="0.28351449275362317" />
+        <entry key="app/src/main/res/layout/shape_toast.xml" value="0.28351449275362317" />
+        <entry key="app/src/main/res/layout/toast_container.xml" value="0.1703125" />
       </map>
     </option>
   </component>

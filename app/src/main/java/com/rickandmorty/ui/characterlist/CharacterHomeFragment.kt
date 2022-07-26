@@ -3,6 +3,7 @@ package com.rickandmorty.ui.characterlist
 import android.app.Application
 import android.os.Bundle
 import android.view.*
+import android.widget.Toast
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -13,6 +14,7 @@ import com.google.gson.Gson
 import com.rickandmorty.model.database.CharacterDao
 import com.rickandmorty.model.database.CharacterListRoom
 import com.rickandmorty.repositories.CharacterRepository
+import com.rickandmorty.utils.showCustomToast
 import com.rickandmorty.viewmodels.CharacterViewModel
 import com.rickandmorty.viewmodels.ViewModelFactory
 import kotlinx.coroutines.Dispatchers
@@ -60,7 +62,8 @@ class CharacterHomeFragment() : Fragment(){
     lifecycleScope.launch(Dispatchers.Main){ //cuando se inicia la actividad
             viewModel?.characterPageFlow()?.collect {
                 adapterPage.submitData(viewLifecycleOwner.lifecycle.whenStarted { it })
-
+                Toast(context).showCustomToast ("Servicio de roaming activo",
+                    requireActivity())
             }
         }
 */
